@@ -1,0 +1,19 @@
+{
+    "name": "qz-skills",
+    "owner": {
+      "name": "QZ"
+    },
+    "description": "Custom agent skills",
+    "plugins": [
+      {
+        "name": "humanize",
+        "source": "./skills/humanize",
+        "description": "Style rules for writing prose that doesn't read as machine-generated."
+      },
+      {
+        "name": "documentation",
+        "source": "./skills/documentation",
+        "description": "Documentation for the project"
+      }
+    ]
+  }
