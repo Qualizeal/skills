@@ -43,7 +43,36 @@ Each plugin's `plugin.json` also declares its skills and agents explicitly:
 
 Both mechanisms are in place deliberately. Claude Code discovers skills by walking `skills/`; other tooling — including the VS Code marketplace panel — reads the arrays in `plugin.json` and shows only what is listed there. `scripts/validate.py` fails the build if the arrays and the folders ever disagree, in either direction.
 
-A marketplace entry is just:
+And the marketplace entry repeats them, because some viewers read only the catalog and never open the plugin directory:
+
+```json
+{
+  "name": "qa-knowledge-fabric",
+  "displayName": "Knowledge Fabric",
+  "version": "3.2.0",
+  "source": "./plugins/qa-knowledge-fabric",
+  "skills": [
+    "./skills/artefact-ingestion",
+    "./skills/redaction-policy",
+    "./skills/retrieval-chunking",
+    "./skills/retrieval-quality-audit",
+    "./skills/tagging-vocabulary"
+  ],
+  "agents": ["./agents/knowledge-fabric-curator.md"]
+}
+```
+
+Three levels declare the same thing on purpose:
+
+| Level | Read by |
+|---|---|
+| `skills/<name>/SKILL.md` folders | Claude Code, by walking the directory |
+| `plugin.json` `skills` array | tools that open the plugin manifest |
+| marketplace entry `skills` array | viewers that read only the catalog |
+
+A viewer with none of these to go on falls back to a default version and a placeholder count of one skill — which looks exactly like a broken build. `scripts/validate.py` fails if any level is missing or disagrees with the files.
+
+Previously the entry was just:
 
 ```json
 {
@@ -120,6 +149,7 @@ Version history:
 | 1.0.0 | 15 plugins, 1 skill each, shared root |
 | 2.0.0 | 15 plugins, 67 skills, shared root with explicit skill paths |
 | 3.0.0 | 15 self-contained plugin directories, skills auto-discovered |
-| **3.1.0** | **as 3.0.0, plus explicit `skills`/`agents` arrays in every `plugin.json`** |
+| 3.1.0 | as 3.0.0, plus explicit `skills`/`agents` arrays in every `plugin.json` |
+| **3.2.0** | **plus `version` and `skills`/`agents` arrays in every marketplace entry** |
 
 The shared-root layout (`source: "./"` with `strict: false`) required every skill path to be listed by hand in `marketplace.json`. It worked, but a single wrong path silently loaded one broken skill instead of the cluster, and that is what caused the repeated "only one skill" problem. 3.0.0 removes the failure mode rather than documenting it.

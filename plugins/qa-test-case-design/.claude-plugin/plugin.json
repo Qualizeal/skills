@@ -1,7 +1,7 @@
 {
   "name": "qa-test-case-design",
   "description": "Equivalence partitioning, boundary values, decision tables, state transition, pairwise, negative and permission testing, level assignment and traceability.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },

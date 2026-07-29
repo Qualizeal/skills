@@ -1,7 +1,7 @@
 {
   "name": "qa-change-impact-analysis",
   "description": "Blast radius tracing, change risk scoring and minimum viable test scope. Answers what needs retesting for a change.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },

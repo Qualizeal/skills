@@ -85,6 +85,8 @@ for entry in mk.get("plugins", []):
     else:
         try:
             man = json.load(open(pj, encoding="utf-8"))
+            if man.get("version") and entry.get("version") and man["version"] != entry["version"]:
+                errors.append(f"{name}: plugin.json version {man['version']} != marketplace entry {entry['version']}")
             if man.get("name") != name:
                 errors.append(f"{name}: plugin.json name '{man.get('name')}' does not match the marketplace entry")
             if not man.get("version"):
@@ -110,6 +112,23 @@ for entry in mk.get("plugins", []):
                 errors.append(f"{name}: plugin.json lists '{phantom}' but the file is missing")
         except Exception as exc:
             errors.append(f"{pj}: invalid JSON — {exc}")
+
+    # The marketplace entry must be self-describing: some viewers read only this
+    # level and fall back to a default version and a skill count of 1 without it.
+    if not entry.get("version"):
+        errors.append(f"{name}: marketplace entry has no 'version' — viewers fall back to a default")
+    actual_entry = {"./skills/" + os.path.basename(os.path.dirname(s))
+                    for s in glob.glob(os.path.join(src, "skills", "*", "SKILL.md"))}
+    declared_entry = set(entry.get("skills") or [])
+    if not declared_entry:
+        errors.append(f"{name}: marketplace entry has no 'skills' array — viewers show one placeholder skill")
+    elif declared_entry != actual_entry:
+        for m in sorted(actual_entry - declared_entry):
+            errors.append(f"{name}: entry skills array missing '{m}'")
+        for m in sorted(declared_entry - actual_entry):
+            errors.append(f"{name}: entry skills array lists '{m}' which does not exist")
+    if not entry.get("agents"):
+        warnings.append(f"{name}: marketplace entry has no 'agents' array")
 
     skills = sorted(glob.glob(os.path.join(src, "skills", "*", "SKILL.md")))
     agents = sorted(glob.glob(os.path.join(src, "agents", "*.md")))

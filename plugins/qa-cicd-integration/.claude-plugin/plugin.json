@@ -1,7 +1,7 @@
 {
   "name": "qa-cicd-integration",
   "description": "Stage design, quality gates, sharding, working GitHub Actions, Azure DevOps and Jenkins pipelines, artefacts, secrets and debugging.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },

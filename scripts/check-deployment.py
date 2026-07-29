@@ -64,8 +64,13 @@ for p in plugins:
     flag = ("   <-- " + ", ".join(problems)) if problems else ""
     if problems:
         bad += 1
-    print(f"  {p['name']:<30} skills={len(skills):<3} declared={declared:<3} agents={len(agents)}{flag}")
+    entry_skills = len(p.get("skills") or [])
+    if entry_skills != len(skills):
+        problems.append(f"entry declares {entry_skills}")
+        flag = "   <-- " + ", ".join(problems)
+    print(f"  {p['name']:<30} v{p.get('version','?'):<7} disk={len(skills):<3} "
+          f"plugin.json={declared:<3} entry={entry_skills:<3} agents={len(agents)}{flag}")
 
 print(f"\ntotal skills discovered: {total}")
-print("Expected for 3.1.0: 15 plugins, 67 skills.\n")
+print("Expected for 3.2.0: 15 plugins, 67 skills.\n")
 print("OK" if not bad and total == 67 else "Not deployable as-is.")
