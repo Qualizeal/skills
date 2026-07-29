@@ -1,0 +1,16 @@
+{
+  "name": "qa-test-metrics",
+  "description": "Metric definitions, release readiness scoring, predictive defect scoring, reporting rules and dashboard specification.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "metrics",
+    "dashboards",
+    "release-readiness",
+    "reporting"
+  ]
+}

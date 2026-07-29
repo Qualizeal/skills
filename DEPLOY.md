@@ -1,81 +1,62 @@
-# Deploying an update
+# Deploying
 
-The panel shows whatever the **deployed** `marketplace.json` says. The version badge tells you which build is live:
+## Verify what you have
 
-| Badge | Build | Skills per plugin |
-|---|---|---|
-| `0.1.0` | 4 cluster plugins | 1 (broken — pointed at a parent folder) |
-| `1.0.0` | 15 plugins | 1 each |
-| `2.0.0` | 15 plugins | 3-7 each, 67 total |
+In the extracted folder:
 
-If it does not say `2.0.0`, the repository has not been updated — no client-side action will change that.
+```bash
+python3 scripts/check-deployment.py
+```
 
-## The step that is usually missed
+Expect `version 3.0.0`, `layout self-contained plugin dirs`, `15 plugins`, `67 skills`, `OK`.
 
-`.claude-plugin/` is a hidden dot-directory. Copying the folder in Windows Explorer with "Hidden items" unticked silently leaves the old `marketplace.json` in place. You then get the new skill tree with the old catalog describing it — every plugin shows one skill, pointing at a directory that no longer contains a `SKILL.md`.
+If it reports `layout shared root (old)`, you are on a pre-3.0.0 build.
 
-`scripts/check-deployment.py` detects exactly this and names it a MIXED STATE.
+## Copy into your repo
 
-## Replace the repository contents
-
-Delete everything except `.git`, then copy this build in whole.
+The one thing that goes wrong: `.claude-plugin/` is a hidden dot-directory and Explorer drag-and-drop skips it. Use `robocopy /E`, or the scripts below, which verify afterwards and fail loudly.
 
 **PowerShell**
-
 ```powershell
-cd D:\AIAutomation\your-marketplace-repo
+.\deploy.ps1 -Repo D:\AIAutomation\your-repo -Push
+```
 
-# remove everything except .git
+**Python (no execution policy involved)**
+```powershell
+python deploy.py D:\AIAutomation\your-repo --push
+```
+
+**By hand**
+```powershell
+cd D:\AIAutomation\your-repo
 Get-ChildItem -Force | Where-Object { $_.Name -ne '.git' } | Remove-Item -Recurse -Force
-
-# copy the extracted build in, including hidden directories
-robocopy D:\path\to\qz-agent-clusters . /E /XD .git
-
-git add -A
-git commit -m "Restructure: task-level skills, 67 across 15 plugins"
-git push
-```
-
-`robocopy /E` copies hidden directories. `xcopy` and drag-and-drop may not.
-
-**Verify before pushing**
-
-```powershell
+robocopy D:\Downloads\qz-agent-clusters . /E /XD .git
 python scripts\check-deployment.py
+git add -A; git commit -m "Deploy 3.0.0"; git push
 ```
 
-Expect: `version 2.0.0`, `plugins 15`, `skills 67 claimed / 67 on disk`, verdict `Current.`
-
-If it reports a MIXED STATE or a count other than 67, `.claude-plugin/marketplace.json` did not get replaced.
+If the build is already sitting inside the repo, skip the copy entirely — just verify and push. Both scripts refuse to run when source and target are the same folder.
 
 ## Refresh the client
 
-Pushing is not enough — the marketplace is cached locally.
+Pushing is not enough; the marketplace is cached locally.
 
 ```
 /plugin marketplace update qz-agent-clusters
 /reload-plugins
 ```
 
-If the panel still shows the old version, force a clean clone:
+If it still shows the old catalog:
 
 ```
 /plugin marketplace remove qz-agent-clusters
 /plugin marketplace add Qualizeal/skills
 ```
 
-Removing a marketplace uninstalls plugins that came from it; reinstall the ones you want afterwards.
+## Confirm
 
-## Confirm it worked
+`qa-knowledge-fabric` should show **5 skills**: `artefact-ingestion`, `tagging-vocabulary`, `retrieval-chunking`, `redaction-policy`, `retrieval-quality-audit`.
 
-`qa-knowledge-fabric` should expand to five skills:
+`qa-playwright-automation` should show **5**: `playwright-operating-rules`, `playwright-framework`, `playwright-locator-strategy`, `playwright-script-generation`, `playwright-mcp`.
 
-```
-artefact-ingestion
-tagging-vocabulary
-retrieval-chunking
-redaction-policy
-retrieval-quality-audit
-```
-
-If it shows one skill called `knowledge-fabric`, you are still on 1.0.0.
+A single skill named after the plugin means an older build is still live.

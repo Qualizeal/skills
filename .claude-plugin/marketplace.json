@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "qz-agent-clusters",
-  "description": "15 independently installable QA capabilities across four clusters. Each plugin pairs one agent with a set of task-level skills \u2014 67 skills in total.",
-  "version": "2.0.0",
+  "description": "15 independently installable QA capabilities across four clusters. Each plugin bundles one agent with its task-level skills \u2014 67 skills in total.",
+  "version": "3.0.0",
   "owner": {
     "name": "Quality Engineering Platform Team",
     "email": "qe-platform@example.com"
@@ -18,21 +18,7 @@
       "name": "qa-requirements-refinement",
       "displayName": "Requirements Refinement",
       "description": "INVEST scoring, ambiguity detection and acceptance criteria authoring. Turns vague stories into testable ones before development starts.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/intelligence/requirements-refinement/invest-scoring",
-        "./skills/intelligence/requirements-refinement/ambiguity-detection",
-        "./skills/intelligence/requirements-refinement/acceptance-criteria-authoring"
-      ],
-      "agents": [
-        "./agents/intelligence/requirements-refiner.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-requirements-refinement",
       "category": "intelligence",
       "keywords": [
         "requirements",
@@ -48,21 +34,7 @@
       "name": "qa-change-impact-analysis",
       "displayName": "Change Impact Analysis",
       "description": "Blast radius tracing, change risk scoring and minimum viable test scope. Answers what needs retesting for a change.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/intelligence/change-impact-analysis/blast-radius-tracing",
-        "./skills/intelligence/change-impact-analysis/change-risk-scoring",
-        "./skills/intelligence/change-impact-analysis/minimum-viable-test-scope"
-      ],
-      "agents": [
-        "./agents/intelligence/change-impact-analyst.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-change-impact-analysis",
       "category": "intelligence",
       "keywords": [
         "impact-analysis",
@@ -78,23 +50,7 @@
       "name": "qa-knowledge-fabric",
       "displayName": "Knowledge Fabric",
       "description": "Ingestion, tagging, chunking, redaction and retrieval quality auditing for the shared RAG knowledge store.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/intelligence/knowledge-fabric/artefact-ingestion",
-        "./skills/intelligence/knowledge-fabric/tagging-vocabulary",
-        "./skills/intelligence/knowledge-fabric/retrieval-chunking",
-        "./skills/intelligence/knowledge-fabric/redaction-policy",
-        "./skills/intelligence/knowledge-fabric/retrieval-quality-audit"
-      ],
-      "agents": [
-        "./agents/intelligence/knowledge-fabric-curator.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-knowledge-fabric",
       "category": "intelligence",
       "keywords": [
         "rag",
@@ -110,21 +66,7 @@
       "name": "qa-rag-augmented-authoring",
       "displayName": "RAG-Augmented Authoring",
       "description": "Grounding contract, retrieval quality bar and citation reporting for artefacts written from organisational knowledge.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/intelligence/rag-augmented-authoring/grounding-contract",
-        "./skills/intelligence/rag-augmented-authoring/retrieval-quality-bar",
-        "./skills/intelligence/rag-augmented-authoring/citation-and-relevance-reporting"
-      ],
-      "agents": [
-        "./agents/intelligence/rag-authoring-assistant.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-rag-augmented-authoring",
       "category": "intelligence",
       "keywords": [
         "rag",
@@ -140,25 +82,7 @@
       "name": "qa-test-case-design",
       "displayName": "Test Case Design",
       "description": "Equivalence partitioning, boundary values, decision tables, state transition, pairwise, negative and permission testing, level assignment and traceability.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/design/test-case-design/equivalence-and-boundary-analysis",
-        "./skills/design/test-case-design/decision-tables",
-        "./skills/design/test-case-design/state-transition-testing",
-        "./skills/design/test-case-design/pairwise-combinations",
-        "./skills/design/test-case-design/negative-and-permission-testing",
-        "./skills/design/test-case-design/test-level-assignment",
-        "./skills/design/test-case-design/traceability-matrix"
-      ],
-      "agents": [
-        "./agents/design/test-case-designer.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-test-case-design",
       "category": "design",
       "keywords": [
         "test-design",
@@ -174,23 +98,7 @@
       "name": "qa-synthetic-test-data",
       "displayName": "Synthetic Test Data",
       "description": "Schema derivation, referential integrity, edge-case distribution, regulatory profiles and lineage. No production PII, ever.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/design/synthetic-test-data/schema-derivation",
-        "./skills/design/synthetic-test-data/referential-integrity",
-        "./skills/design/synthetic-test-data/edge-case-distribution",
-        "./skills/design/synthetic-test-data/regulatory-profiles",
-        "./skills/design/synthetic-test-data/data-lineage"
-      ],
-      "agents": [
-        "./agents/design/synthetic-data-architect.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-synthetic-test-data",
       "category": "design",
       "keywords": [
         "test-data",
@@ -207,23 +115,7 @@
       "name": "qa-playwright-automation",
       "displayName": "Playwright Automation",
       "description": "Operating rules, framework architecture, locator strategy, script generation and the Playwright MCP browser loop.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/playwright-automation/playwright-operating-rules",
-        "./skills/execution/playwright-automation/playwright-framework",
-        "./skills/execution/playwright-automation/playwright-locator-strategy",
-        "./skills/execution/playwright-automation/playwright-script-generation",
-        "./skills/execution/playwright-automation/playwright-mcp"
-      ],
-      "agents": [
-        "./agents/execution/playwright-automator.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-playwright-automation",
       "category": "execution",
       "keywords": [
         "playwright",
@@ -240,22 +132,7 @@
       "name": "qa-failure-analysis",
       "displayName": "Failure Analysis & Self-Healing",
       "description": "Failure triage, flake classification, locator drift repair and quarantine policy.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/failure-analysis/failure-triage",
-        "./skills/execution/failure-analysis/flake-classification",
-        "./skills/execution/failure-analysis/locator-drift-repair",
-        "./skills/execution/failure-analysis/quarantine-policy"
-      ],
-      "agents": [
-        "./agents/execution/failure-analyst.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-failure-analysis",
       "category": "execution",
       "keywords": [
         "triage",
@@ -271,21 +148,7 @@
       "name": "qa-script-maintenance",
       "displayName": "Script Maintenance",
       "description": "Suite health auditing, repair rules and test deletion criteria.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/script-maintenance/suite-health-audit",
-        "./skills/execution/script-maintenance/automation-repair-rules",
-        "./skills/execution/script-maintenance/test-deletion-criteria"
-      ],
-      "agents": [
-        "./agents/execution/script-maintainer.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-script-maintenance",
       "category": "execution",
       "keywords": [
         "maintenance",
@@ -301,25 +164,7 @@
       "name": "qa-cicd-integration",
       "displayName": "CI/CD Integration",
       "description": "Stage design, quality gates, sharding, working GitHub Actions, Azure DevOps and Jenkins pipelines, artefacts, secrets and debugging.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/cicd-integration/pipeline-stage-design",
-        "./skills/execution/cicd-integration/quality-gate-definitions",
-        "./skills/execution/cicd-integration/playwright-sharding",
-        "./skills/execution/cicd-integration/github-actions-pipeline",
-        "./skills/execution/cicd-integration/azure-devops-jenkins-pipeline",
-        "./skills/execution/cicd-integration/artefacts-and-secrets",
-        "./skills/execution/cicd-integration/pipeline-debugging"
-      ],
-      "agents": [
-        "./agents/execution/cicd-integrator.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-cicd-integration",
       "category": "execution",
       "keywords": [
         "ci-cd",
@@ -336,22 +181,7 @@
       "name": "qa-shift-left-security",
       "displayName": "Shift-Left Security",
       "description": "STRIDE threat modelling, security acceptance criteria, scanner triage and testing boundaries.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/shift-left-security/stride-threat-modelling",
-        "./skills/execution/shift-left-security/security-acceptance-criteria",
-        "./skills/execution/shift-left-security/scanner-triage",
-        "./skills/execution/shift-left-security/security-testing-boundaries"
-      ],
-      "agents": [
-        "./agents/execution/shift-left-security.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-shift-left-security",
       "category": "execution",
       "keywords": [
         "security",
@@ -368,23 +198,7 @@
       "name": "qa-performance-testing",
       "displayName": "Performance Testing",
       "description": "Workload modelling, SLO definition, test type selection, bottleneck analysis and honest reporting.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/execution/performance-testing/workload-modelling",
-        "./skills/execution/performance-testing/slo-definition",
-        "./skills/execution/performance-testing/test-type-selection",
-        "./skills/execution/performance-testing/bottleneck-analysis",
-        "./skills/execution/performance-testing/performance-reporting"
-      ],
-      "agents": [
-        "./agents/execution/performance-tester.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-performance-testing",
       "category": "execution",
       "keywords": [
         "performance",
@@ -401,22 +215,7 @@
       "name": "qa-defect-reporting",
       "displayName": "Defect Reporting & Enrichment",
       "description": "Screening, report template, severity versus priority and root cause categories.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/governance/defect-reporting/defect-screening",
-        "./skills/governance/defect-reporting/defect-report-template",
-        "./skills/governance/defect-reporting/severity-and-priority",
-        "./skills/governance/defect-reporting/root-cause-categories"
-      ],
-      "agents": [
-        "./agents/governance/defect-reporter.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-defect-reporting",
       "category": "governance",
       "keywords": [
         "defects",
@@ -432,23 +231,7 @@
       "name": "qa-test-metrics",
       "displayName": "Test Metrics & Dashboards",
       "description": "Metric definitions, release readiness scoring, predictive defect scoring, reporting rules and dashboard specification.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/governance/test-metrics/metric-definitions",
-        "./skills/governance/test-metrics/release-readiness-scoring",
-        "./skills/governance/test-metrics/predictive-defect-scoring",
-        "./skills/governance/test-metrics/metrics-reporting-rules",
-        "./skills/governance/test-metrics/dashboard-specification"
-      ],
-      "agents": [
-        "./agents/governance/metrics-analyst.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-test-metrics",
       "category": "governance",
       "keywords": [
         "metrics",
@@ -464,22 +247,7 @@
       "name": "qa-continuous-learning",
       "displayName": "Continuous Learning",
       "description": "Signal capture, learning validation, effectiveness tracking and loop failure modes.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/governance/continuous-learning/signal-capture",
-        "./skills/governance/continuous-learning/learning-validation",
-        "./skills/governance/continuous-learning/effectiveness-tracking",
-        "./skills/governance/continuous-learning/learning-loop-failure-modes"
-      ],
-      "agents": [
-        "./agents/governance/continuous-learning.md"
-      ],
-      "version": "2.0.0",
-      "author": {
-        "name": "Quality Engineering Platform Team"
-      },
-      "license": "MIT",
+      "source": "./plugins/qa-continuous-learning",
       "category": "governance",
       "keywords": [
         "feedback-loop",

@@ -1,0 +1,16 @@
+{
+  "name": "qa-defect-reporting",
+  "description": "Screening, report template, severity versus priority and root cause categories.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "defects",
+    "bug-reports",
+    "rca",
+    "triage"
+  ]
+}

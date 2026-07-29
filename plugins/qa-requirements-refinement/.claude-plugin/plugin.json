@@ -1,0 +1,16 @@
+{
+  "name": "qa-requirements-refinement",
+  "description": "INVEST scoring, ambiguity detection and acceptance criteria authoring. Turns vague stories into testable ones before development starts.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "requirements",
+    "invest",
+    "user-stories",
+    "acceptance-criteria"
+  ]
+}

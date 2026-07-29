@@ -1,0 +1,17 @@
+{
+  "name": "qa-shift-left-security",
+  "description": "STRIDE threat modelling, security acceptance criteria, scanner triage and testing boundaries.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "security",
+    "stride",
+    "sast",
+    "dast",
+    "threat-modelling"
+  ]
+}

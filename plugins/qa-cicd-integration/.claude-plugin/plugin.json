@@ -1,0 +1,17 @@
+{
+  "name": "qa-cicd-integration",
+  "description": "Stage design, quality gates, sharding, working GitHub Actions, Azure DevOps and Jenkins pipelines, artefacts, secrets and debugging.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "ci-cd",
+    "github-actions",
+    "azure-devops",
+    "jenkins",
+    "quality-gates"
+  ]
+}

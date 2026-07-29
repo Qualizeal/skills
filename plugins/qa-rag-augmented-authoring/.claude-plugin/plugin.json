@@ -1,0 +1,16 @@
+{
+  "name": "qa-rag-augmented-authoring",
+  "description": "Grounding contract, retrieval quality bar and citation reporting for artefacts written from organisational knowledge.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "rag",
+    "authoring",
+    "grounding",
+    "documentation"
+  ]
+}

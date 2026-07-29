@@ -1,0 +1,16 @@
+{
+  "name": "qa-failure-analysis",
+  "description": "Failure triage, flake classification, locator drift repair and quarantine policy.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "triage",
+    "rca",
+    "flaky-tests",
+    "self-healing"
+  ]
+}

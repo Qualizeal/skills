@@ -1,0 +1,17 @@
+{
+  "name": "qa-synthetic-test-data",
+  "description": "Schema derivation, referential integrity, edge-case distribution, regulatory profiles and lineage. No production PII, ever.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "test-data",
+    "synthetic-data",
+    "pii",
+    "gdpr",
+    "fixtures"
+  ]
+}

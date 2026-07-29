@@ -1,0 +1,17 @@
+{
+  "name": "qa-playwright-automation",
+  "description": "Operating rules, framework architecture, locator strategy, script generation and the Playwright MCP browser loop.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Quality Engineering Platform Team"
+  },
+  "homepage": "https://github.com/Qualizeal/skills",
+  "license": "MIT",
+  "keywords": [
+    "playwright",
+    "automation",
+    "e2e",
+    "locators",
+    "mcp"
+  ]
+}
