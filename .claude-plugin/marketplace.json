@@ -7,6 +7,12 @@
     "name": "Quality Engineering Platform Team",
     "email": "qe-platform@example.com"
   },
+  "renames": {
+    "qa-intelligence": null,
+    "qa-design": null,
+    "qa-execution": null,
+    "qa-governance": null
+  },
   "plugins": [
     {
       "name": "qa-requirements-refinement",

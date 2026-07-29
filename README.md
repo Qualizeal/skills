@@ -15,6 +15,43 @@ rag-authoring-                            shift-left-security
   assistant                               performance-tester
 ```
 
+## Upgrading from 0.1.0
+
+If your marketplace panel shows four plugins (`qa-intelligence`, `qa-design`, `qa-execution`, `qa-governance`) at version `0.1.0`, each with one skill named after its cluster folder, you are running the first build. Nothing in the client will change until the repository contents are replaced.
+
+**Check what is actually deployed** before changing anything else:
+
+```bash
+python3 scripts/check-deployment.py            # run inside the repo you pushed
+```
+
+It prints the marketplace version, the entry count, and whether each `skills` path resolves to a real `SKILL.md`. The 0.1.0 layout is called out explicitly.
+
+**Then replace and refresh:**
+
+```bash
+# 1. In your marketplace repo, delete the old contents and copy this build in.
+#    Keep .git; replace everything else, including .claude-plugin/.
+git add -A && git commit -m "Restructure: 15 independently installable capabilities" && git push
+
+# 2. Refresh the client's cached copy — this step is not optional.
+/plugin marketplace update qz-agent-clusters
+/reload-plugins
+```
+
+If the panel still shows the old entries, remove and re-add the marketplace — that forces a clean clone:
+
+```bash
+/plugin marketplace remove qz-agent-clusters
+/plugin marketplace add your-org/your-repo
+```
+
+Removing a marketplace uninstalls plugins installed from it, which is fine here since the old four no longer exist.
+
+**Old plugin names are handled.** The four cluster plugins are gone, so `marketplace.json` carries a `renames` map pointing each to `null`. Existing users get a one-line notice that the plugin was removed, and the stale key is dropped from their settings, instead of a `plugin-not-found` error every session. Automatic migration needs Claude Code v2.1.193 or later.
+
+**Marketplace name.** The install suffix comes from the `name` field in `marketplace.json`, not from the repository path — so it stays `@qz-agent-clusters` even when hosted at `your-org/skills`. Change `name` if you want the suffix to match the repo, but note that each user can register only one marketplace per name.
+
 ## Install individual capabilities
 
 Each of the 15 capabilities is its own plugin, so you install exactly what you want:
