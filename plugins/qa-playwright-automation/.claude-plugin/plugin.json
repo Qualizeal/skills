@@ -1,7 +1,7 @@
 {
   "name": "qa-playwright-automation",
   "description": "Operating rules, framework architecture, locator strategy, script generation and the Playwright MCP browser loop.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -14,14 +14,6 @@
     "locators",
     "mcp"
   ],
-  "skills": [
-    "./skills/playwright-framework",
-    "./skills/playwright-locator-strategy",
-    "./skills/playwright-mcp",
-    "./skills/playwright-operating-rules",
-    "./skills/playwright-script-generation"
-  ],
-  "agents": [
-    "./agents/playwright-automator.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

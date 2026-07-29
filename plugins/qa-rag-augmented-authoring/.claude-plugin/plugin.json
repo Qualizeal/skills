@@ -1,7 +1,7 @@
 {
   "name": "qa-rag-augmented-authoring",
   "description": "Grounding contract, retrieval quality bar and citation reporting for artefacts written from organisational knowledge.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -13,12 +13,6 @@
     "grounding",
     "documentation"
   ],
-  "skills": [
-    "./skills/citation-and-relevance-reporting",
-    "./skills/grounding-contract",
-    "./skills/retrieval-quality-bar"
-  ],
-  "agents": [
-    "./agents/rag-authoring-assistant.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

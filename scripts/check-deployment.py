@@ -48,7 +48,9 @@ for p in plugins:
     declared = 0
     if manifest:
         try:
-            declared = len(json.load(open(pj, encoding="utf-8")).get("skills") or [])
+            man = json.load(open(pj, encoding="utf-8"))
+            if isinstance(man.get("skills"), list):
+                declared = -1   # list form: VS Code will show a placeholder
         except Exception:
             declared = -1
     total += len(skills)
@@ -59,18 +61,13 @@ for p in plugins:
         problems.append("no plugin.json")
     if not skills:
         problems.append("no skills on disk")
-    if manifest and declared != len(skills):
-        problems.append(f"plugin.json declares {declared}, disk has {len(skills)}")
+    if declared == -1:
+        problems.append("plugin.json 'skills' is a list, must be the container path")
     flag = ("   <-- " + ", ".join(problems)) if problems else ""
     if problems:
         bad += 1
-    entry_skills = len(p.get("skills") or [])
-    if entry_skills != len(skills):
-        problems.append(f"entry declares {entry_skills}")
-        flag = "   <-- " + ", ".join(problems)
-    print(f"  {p['name']:<30} v{p.get('version','?'):<7} disk={len(skills):<3} "
-          f"plugin.json={declared:<3} entry={entry_skills:<3} agents={len(agents)}{flag}")
+    print(f"  {p['name']:<30} v{p.get('version','?'):<7} skills={len(skills):<3} agents={len(agents)}{flag}")
 
 print(f"\ntotal skills discovered: {total}")
-print("Expected for 3.2.0: 15 plugins, 67 skills.\n")
+print("Expected for 3.3.0: 15 plugins, 67 skills.\n")
 print("OK" if not bad and total == 67 else "Not deployable as-is.")

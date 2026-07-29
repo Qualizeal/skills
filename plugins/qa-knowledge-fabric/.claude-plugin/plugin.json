@@ -1,7 +1,7 @@
 {
   "name": "qa-knowledge-fabric",
   "description": "Ingestion, tagging, chunking, redaction and retrieval quality auditing for the shared RAG knowledge store.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -13,14 +13,6 @@
     "curation",
     "retrieval"
   ],
-  "skills": [
-    "./skills/artefact-ingestion",
-    "./skills/redaction-policy",
-    "./skills/retrieval-chunking",
-    "./skills/retrieval-quality-audit",
-    "./skills/tagging-vocabulary"
-  ],
-  "agents": [
-    "./agents/knowledge-fabric-curator.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

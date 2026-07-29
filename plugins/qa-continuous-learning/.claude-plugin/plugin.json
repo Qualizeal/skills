@@ -1,7 +1,7 @@
 {
   "name": "qa-continuous-learning",
   "description": "Signal capture, learning validation, effectiveness tracking and loop failure modes.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -13,13 +13,6 @@
     "learning",
     "improvement"
   ],
-  "skills": [
-    "./skills/effectiveness-tracking",
-    "./skills/learning-loop-failure-modes",
-    "./skills/learning-validation",
-    "./skills/signal-capture"
-  ],
-  "agents": [
-    "./agents/continuous-learning.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

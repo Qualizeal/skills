@@ -1,7 +1,7 @@
 {
   "name": "qa-defect-reporting",
   "description": "Screening, report template, severity versus priority and root cause categories.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -13,13 +13,6 @@
     "rca",
     "triage"
   ],
-  "skills": [
-    "./skills/defect-report-template",
-    "./skills/defect-screening",
-    "./skills/root-cause-categories",
-    "./skills/severity-and-priority"
-  ],
-  "agents": [
-    "./agents/defect-reporter.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

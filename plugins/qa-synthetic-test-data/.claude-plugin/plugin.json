@@ -1,7 +1,7 @@
 {
   "name": "qa-synthetic-test-data",
   "description": "Schema derivation, referential integrity, edge-case distribution, regulatory profiles and lineage. No production PII, ever.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -14,14 +14,6 @@
     "gdpr",
     "fixtures"
   ],
-  "skills": [
-    "./skills/data-lineage",
-    "./skills/edge-case-distribution",
-    "./skills/referential-integrity",
-    "./skills/regulatory-profiles",
-    "./skills/schema-derivation"
-  ],
-  "agents": [
-    "./agents/synthetic-data-architect.md"
-  ]
+  "skills": "skills/",
+  "agents": "agents/"
 }

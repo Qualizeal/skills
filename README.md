@@ -43,47 +43,34 @@ Each plugin's `plugin.json` also declares its skills and agents explicitly:
 
 Both mechanisms are in place deliberately. Claude Code discovers skills by walking `skills/`; other tooling — including the VS Code marketplace panel — reads the arrays in `plugin.json` and shows only what is listed there. `scripts/validate.py` fails the build if the arrays and the folders ever disagree, in either direction.
 
-And the marketplace entry repeats them, because some viewers read only the catalog and never open the plugin directory:
+Each plugin's `plugin.json` points at the **container** directories, which is what both VS Code and Claude Code expect:
 
 ```json
 {
   "name": "qa-knowledge-fabric",
-  "displayName": "Knowledge Fabric",
-  "version": "3.2.0",
-  "source": "./plugins/qa-knowledge-fabric",
-  "skills": [
-    "./skills/artefact-ingestion",
-    "./skills/redaction-policy",
-    "./skills/retrieval-chunking",
-    "./skills/retrieval-quality-audit",
-    "./skills/tagging-vocabulary"
-  ],
-  "agents": ["./agents/knowledge-fabric-curator.md"]
+  "version": "3.3.0",
+  "skills": "skills/",
+  "agents": "agents/"
 }
 ```
 
-Three levels declare the same thing on purpose:
+This is the field that caused the long-running "only one skill" problem. VS Code's reference defines `skills` as "Path(s) to skill directories, defaults to `skills/`" — the folder that *contains* the skills. Listing each skill directory individually makes it look for `*/SKILL.md` inside a leaf, find nothing, and show a single placeholder. `scripts/validate.py` now rejects the list form outright.
 
-| Level | Read by |
-|---|---|
-| `skills/<name>/SKILL.md` folders | Claude Code, by walking the directory |
-| `plugin.json` `skills` array | tools that open the plugin manifest |
-| marketplace entry `skills` array | viewers that read only the catalog |
+See `VSCODE.md` for VS Code registration, cache locations and local testing.
 
-A viewer with none of these to go on falls back to a default version and a placeholder count of one skill — which looks exactly like a broken build. `scripts/validate.py` fails if any level is missing or disagrees with the files.
-
-Previously the entry was just:
+A marketplace entry is:
 
 ```json
 {
   "name": "qa-knowledge-fabric",
   "displayName": "Knowledge Fabric",
+  "version": "3.3.0",
   "source": "./plugins/qa-knowledge-fabric",
   "category": "intelligence"
 }
 ```
 
-Everything else comes from the plugin's own `plugin.json`, and the components come from the folder structure. Adding a skill is one step: drop `skills/<name>/SKILL.md` into the plugin directory. No manifest edit, nothing to forget.
+`version` appears in both files deliberately — it drives update detection in every tool, and a missing one makes viewers fall back to a default.
 
 ## Install
 
@@ -150,6 +137,7 @@ Version history:
 | 2.0.0 | 15 plugins, 67 skills, shared root with explicit skill paths |
 | 3.0.0 | 15 self-contained plugin directories, skills auto-discovered |
 | 3.1.0 | as 3.0.0, plus explicit `skills`/`agents` arrays in every `plugin.json` |
-| **3.2.0** | **plus `version` and `skills`/`agents` arrays in every marketplace entry** |
+| 3.2.0 | plus `version` and per-skill arrays in every marketplace entry |
+| **3.3.0** | **`skills`/`agents` as container paths — the form VS Code and Claude Code both expect** |
 
 The shared-root layout (`source: "./"` with `strict: false`) required every skill path to be listed by hand in `marketplace.json`. It worked, but a single wrong path silently loaded one broken skill instead of the cluster, and that is what caused the repeated "only one skill" problem. 3.0.0 removes the failure mode rather than documenting it.

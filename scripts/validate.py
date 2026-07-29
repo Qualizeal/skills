@@ -94,22 +94,17 @@ for entry in mk.get("plugins", []):
 
             # Explicit arrays must list every skill and agent on disk. Tools that
             # read the manifest rather than walking folders show only what is listed.
-            declared = set(man.get("skills") or [])
-            actual = {"./skills/" + os.path.basename(os.path.dirname(s))
-                      for s in glob.glob(os.path.join(src, "skills", "*", "SKILL.md"))}
-            if not declared:
-                errors.append(f"{name}: plugin.json has no 'skills' array — viewers that read the manifest will show none")
-            for missing in sorted(actual - declared):
-                errors.append(f"{name}: skill '{missing}' exists on disk but is not in plugin.json's skills array")
-            for phantom in sorted(declared - actual):
-                errors.append(f"{name}: plugin.json lists '{phantom}' but no SKILL.md is there")
-
-            dec_a = set(man.get("agents") or [])
-            act_a = {"./agents/" + os.path.basename(a) for a in glob.glob(os.path.join(src, "agents", "*.md"))}
-            for missing in sorted(act_a - dec_a):
-                errors.append(f"{name}: agent '{missing}' exists on disk but is not in plugin.json's agents array")
-            for phantom in sorted(dec_a - act_a):
-                errors.append(f"{name}: plugin.json lists '{phantom}' but the file is missing")
+            # VS Code: "skills: Path(s) to skill directories. Defaults to skills/."
+            # It is the container, so a leaf path yields zero skills and one placeholder.
+            for field, want in (("skills", "skills/"), ("agents", "agents/")):
+                v = man.get(field)
+                if v is None:
+                    warnings.append(f"{name}: plugin.json has no '{field}' — relying on the default")
+                elif isinstance(v, list):
+                    errors.append(f"{name}: plugin.json '{field}' is a list of individual directories — "
+                                  f'use the container path "{want}" instead')
+                elif v.strip("./") != want.strip("/"):
+                    warnings.append(f"{name}: plugin.json '{field}' is '{v}', expected '{want}'")
         except Exception as exc:
             errors.append(f"{pj}: invalid JSON — {exc}")
 
@@ -117,18 +112,13 @@ for entry in mk.get("plugins", []):
     # level and fall back to a default version and a skill count of 1 without it.
     if not entry.get("version"):
         errors.append(f"{name}: marketplace entry has no 'version' — viewers fall back to a default")
-    actual_entry = {"./skills/" + os.path.basename(os.path.dirname(s))
-                    for s in glob.glob(os.path.join(src, "skills", "*", "SKILL.md"))}
-    declared_entry = set(entry.get("skills") or [])
-    if not declared_entry:
-        errors.append(f"{name}: marketplace entry has no 'skills' array — viewers show one placeholder skill")
-    elif declared_entry != actual_entry:
-        for m in sorted(actual_entry - declared_entry):
-            errors.append(f"{name}: entry skills array missing '{m}'")
-        for m in sorted(declared_entry - actual_entry):
-            errors.append(f"{name}: entry skills array lists '{m}' which does not exist")
-    if not entry.get("agents"):
-        warnings.append(f"{name}: marketplace entry has no 'agents' array")
+    # `skills` means the CONTAINER directory, not individual skill dirs. Listing
+    # each skill makes VS Code look for */SKILL.md inside a leaf and find none.
+    for field in ("skills", "agents"):
+        v = entry.get(field)
+        if isinstance(v, list) and len(v) > 1:
+            errors.append(f"{name}: marketplace entry '{field}' lists individual directories — "
+                          f"it must be the container path, e.g. \"{field}/\"")
 
     skills = sorted(glob.glob(os.path.join(src, "skills", "*", "SKILL.md")))
     agents = sorted(glob.glob(os.path.join(src, "agents", "*.md")))
