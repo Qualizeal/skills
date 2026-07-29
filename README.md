@@ -15,7 +15,11 @@ rag-authoring-                            shift-left-security
   assistant                               performance-tester
 ```
 
-## Upgrading from 0.1.0
+> **Updating an existing deployment?** Read `DEPLOY.md` first. The version badge in your
+> plugin panel tells you which build is live: `2.0.0` is current. The step most often missed
+> is that `.claude-plugin/` is a hidden directory and gets skipped by Explorer copies.
+
+## Upgrading from an earlier build
 
 If your marketplace panel shows four plugins (`qa-intelligence`, `qa-design`, `qa-execution`, `qa-governance`) at version `0.1.0`, each with one skill named after its cluster folder, you are running the first build. Nothing in the client will change until the repository contents are replaced.
 
