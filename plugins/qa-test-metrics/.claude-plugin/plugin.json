@@ -1,7 +1,7 @@
 {
   "name": "qa-test-metrics",
   "description": "Metric definitions, release readiness scoring, predictive defect scoring, reporting rules and dashboard specification.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -12,5 +12,15 @@
     "dashboards",
     "release-readiness",
     "reporting"
+  ],
+  "skills": [
+    "./skills/dashboard-specification",
+    "./skills/metric-definitions",
+    "./skills/metrics-reporting-rules",
+    "./skills/predictive-defect-scoring",
+    "./skills/release-readiness-scoring"
+  ],
+  "agents": [
+    "./agents/metrics-analyst.md"
   ]
 }

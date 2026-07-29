@@ -9,6 +9,7 @@ Build history:
     1.0.0   15 plugins, 1 skill each, shared root
     2.0.0   15 plugins, 67 skills, shared root + explicit skill paths
     3.0.0   15 self-contained plugin directories, skills auto-discovered
+    3.1.0   plus explicit skills/agents arrays in each plugin.json
 """
 import json, sys, os, glob
 
@@ -42,7 +43,14 @@ for p in plugins:
     src = os.path.join(root, p.get("source", ""))
     skills = glob.glob(os.path.join(src, "skills", "*", "SKILL.md"))
     agents = glob.glob(os.path.join(src, "agents", "*.md"))
-    manifest = os.path.isfile(os.path.join(src, ".claude-plugin", "plugin.json"))
+    pj = os.path.join(src, ".claude-plugin", "plugin.json")
+    manifest = os.path.isfile(pj)
+    declared = 0
+    if manifest:
+        try:
+            declared = len(json.load(open(pj, encoding="utf-8")).get("skills") or [])
+        except Exception:
+            declared = -1
     total += len(skills)
     problems = []
     if not os.path.isdir(src):
@@ -50,12 +58,14 @@ for p in plugins:
     if not manifest:
         problems.append("no plugin.json")
     if not skills:
-        problems.append("no skills")
+        problems.append("no skills on disk")
+    if manifest and declared != len(skills):
+        problems.append(f"plugin.json declares {declared}, disk has {len(skills)}")
     flag = ("   <-- " + ", ".join(problems)) if problems else ""
     if problems:
         bad += 1
-    print(f"  {p['name']:<30} skills={len(skills):<3} agents={len(agents)}{flag}")
+    print(f"  {p['name']:<30} skills={len(skills):<3} declared={declared:<3} agents={len(agents)}{flag}")
 
 print(f"\ntotal skills discovered: {total}")
-print("Expected for 3.0.0: 15 plugins, 67 skills.\n")
+print("Expected for 3.1.0: 15 plugins, 67 skills.\n")
 print("OK" if not bad and total == 67 else "Not deployable as-is.")

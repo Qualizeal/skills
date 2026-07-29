@@ -1,7 +1,7 @@
 {
   "name": "qa-script-maintenance",
   "description": "Suite health auditing, repair rules and test deletion criteria.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -12,5 +12,13 @@
     "suite-health",
     "refactoring",
     "technical-debt"
+  ],
+  "skills": [
+    "./skills/automation-repair-rules",
+    "./skills/suite-health-audit",
+    "./skills/test-deletion-criteria"
+  ],
+  "agents": [
+    "./agents/script-maintainer.md"
   ]
 }

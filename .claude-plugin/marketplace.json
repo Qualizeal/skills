@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "qz-agent-clusters",
   "description": "15 independently installable QA capabilities across four clusters. Each plugin bundles one agent with its task-level skills \u2014 67 skills in total.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "owner": {
     "name": "Quality Engineering Platform Team",
     "email": "qe-platform@example.com"

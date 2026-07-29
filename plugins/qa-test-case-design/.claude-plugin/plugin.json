@@ -1,7 +1,7 @@
 {
   "name": "qa-test-case-design",
   "description": "Equivalence partitioning, boundary values, decision tables, state transition, pairwise, negative and permission testing, level assignment and traceability.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": {
     "name": "Quality Engineering Platform Team"
   },
@@ -12,5 +12,17 @@
     "boundary-analysis",
     "traceability",
     "coverage"
+  ],
+  "skills": [
+    "./skills/decision-tables",
+    "./skills/equivalence-and-boundary-analysis",
+    "./skills/negative-and-permission-testing",
+    "./skills/pairwise-combinations",
+    "./skills/state-transition-testing",
+    "./skills/test-level-assignment",
+    "./skills/traceability-matrix"
+  ],
+  "agents": [
+    "./agents/test-case-designer.md"
   ]
 }

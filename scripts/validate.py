@@ -89,6 +89,25 @@ for entry in mk.get("plugins", []):
                 errors.append(f"{name}: plugin.json name '{man.get('name')}' does not match the marketplace entry")
             if not man.get("version"):
                 warnings.append(f"{name}: plugin.json has no version — updates will track the commit SHA")
+
+            # Explicit arrays must list every skill and agent on disk. Tools that
+            # read the manifest rather than walking folders show only what is listed.
+            declared = set(man.get("skills") or [])
+            actual = {"./skills/" + os.path.basename(os.path.dirname(s))
+                      for s in glob.glob(os.path.join(src, "skills", "*", "SKILL.md"))}
+            if not declared:
+                errors.append(f"{name}: plugin.json has no 'skills' array — viewers that read the manifest will show none")
+            for missing in sorted(actual - declared):
+                errors.append(f"{name}: skill '{missing}' exists on disk but is not in plugin.json's skills array")
+            for phantom in sorted(declared - actual):
+                errors.append(f"{name}: plugin.json lists '{phantom}' but no SKILL.md is there")
+
+            dec_a = set(man.get("agents") or [])
+            act_a = {"./agents/" + os.path.basename(a) for a in glob.glob(os.path.join(src, "agents", "*.md"))}
+            for missing in sorted(act_a - dec_a):
+                errors.append(f"{name}: agent '{missing}' exists on disk but is not in plugin.json's agents array")
+            for phantom in sorted(dec_a - act_a):
+                errors.append(f"{name}: plugin.json lists '{phantom}' but the file is missing")
         except Exception as exc:
             errors.append(f"{pj}: invalid JSON — {exc}")
 

@@ -8,7 +8,7 @@ In the extracted folder:
 python3 scripts/check-deployment.py
 ```
 
-Expect `version 3.0.0`, `layout self-contained plugin dirs`, `15 plugins`, `67 skills`, `OK`.
+Expect `version 3.1.0`, `layout self-contained plugin dirs`, `15 plugins`, `67 skills`, `OK`.
 
 If it reports `layout shared root (old)`, you are on a pre-3.0.0 build.
 
