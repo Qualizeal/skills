@@ -75,6 +75,11 @@ for entry in mk.get("plugins", []):
                 f"{name}: shared root without explicit skills/agents paths "
                 "— this entry will load every cluster"
             )
+    if len(entry.get("skills", [])) != 1 or len(entry.get("agents", [])) != 1:
+        warnings.append(
+            f"{name}: {len(entry.get('skills', []))} skills / {len(entry.get('agents', []))} agents "
+            "— this marketplace pairs exactly one of each per plugin so capabilities install individually"
+        )
     if not entry.get("description"):
         warnings.append(f"{name}: no description")
     if not entry.get("version"):

@@ -15,69 +15,112 @@ rag-authoring-                            shift-left-security
   assistant                               performance-tester
 ```
 
+## Install individual capabilities
+
+Each of the 15 capabilities is its own plugin, so you install exactly what you want:
+
+```bash
+/plugin marketplace add ./qz-agent-clusters        # local
+/plugin marketplace add your-org/qz-agent-clusters # published
+
+/plugin install qa-knowledge-fabric@qz-agent-clusters      # just this one
+/reload-plugins
+```
+
+Installing a whole cluster means installing its members:
+
+```bash
+/plugin install qa-requirements-refinement@qz-agent-clusters
+/plugin install qa-change-impact-analysis@qz-agent-clusters
+/plugin install qa-knowledge-fabric@qz-agent-clusters
+/plugin install qa-rag-augmented-authoring@qz-agent-clusters
+```
+
+Entries carry `category` set to their cluster, so `/plugin > Discover` groups them as Intelligence, Design, Execution and Governance.
+
+### The 15 plugins
+
+| Plugin | Cluster | Skill | Agent |
+|---|---|---|---|
+| `qa-requirements-refinement` | Intelligence | `requirements-refinement` | `requirements-refiner` |
+| `qa-change-impact-analysis` | Intelligence | `change-impact-analysis` | `change-impact-analyst` |
+| `qa-knowledge-fabric` | Intelligence | `knowledge-fabric` | `knowledge-fabric-curator` |
+| `qa-rag-augmented-authoring` | Intelligence | `rag-augmented-authoring` | `rag-authoring-assistant` |
+| `qa-test-case-design` | Design | `test-case-design` | `test-case-designer` |
+| `qa-synthetic-test-data` | Design | `synthetic-test-data` | `synthetic-data-architect` |
+| `qa-playwright-automation` | Execution | `playwright-automation` | `playwright-automator` |
+| `qa-failure-analysis` | Execution | `failure-analysis-self-healing` | `failure-analyst` |
+| `qa-script-maintenance` | Execution | `script-maintenance` | `script-maintainer` |
+| `qa-cicd-integration` | Execution | `cicd-integration` | `cicd-integrator` |
+| `qa-shift-left-security` | Execution | `shift-left-security-testing` | `shift-left-security` |
+| `qa-performance-testing` | Execution | `performance-testing` | `performance-tester` |
+| `qa-defect-reporting` | Governance | `defect-reporting-enrichment` | `defect-reporter` |
+| `qa-test-metrics` | Governance | `test-metrics-dashboards` | `metrics-analyst` |
+| `qa-continuous-learning` | Governance | `continuous-learning-loop` | `continuous-learning` |
+
 ## Layout
 
-There is no `plugins/` directory. All four clusters live side by side under `skills/` and `agents/`, and each marketplace entry claims its own subdirectory:
+Files stay grouped by cluster on disk; the manifest decides what installs together.
 
 ```
 qz-agent-clusters/
 ├── .claude-plugin/
-│   └── marketplace.json          # four entries, all source "./"
-├── skills/                       # 15 skills, one per diagram item
-│   ├── intelligence/             # 4
-│   ├── design/                   # 2
-│   ├── execution/                # 6  (playwright-automation bundles 4 references)
-│   └── governance/               # 3
-├── agents/                       # 15 agents, paired 1:1 with the skills
-│   ├── intelligence/             # 4
+│   └── marketplace.json          # 15 entries, one per capability
+├── skills/
+│   ├── intelligence/
+│   │   ├── requirements-refinement/SKILL.md
+│   │   ├── change-impact-analysis/SKILL.md
+│   │   ├── knowledge-fabric/SKILL.md
+│   │   └── rag-augmented-authoring/SKILL.md
+│   ├── design/                   # 2 skill folders
+│   ├── execution/                # 6 skill folders
+│   │   └── playwright-automation/
+│   │       ├── SKILL.md
+│   │       └── references/       # framework, locators, script-gen, mcp
+│   └── governance/               # 3 skill folders
+├── agents/
+│   ├── intelligence/             # 4 agent files
 │   ├── design/                   # 2
 │   ├── execution/                # 6
 │   └── governance/               # 3
 ├── docs/
-│   ├── AGENT-SKILL-MAP.md        # the 1:1 map
-│   ├── ROLLOUT.md
-│   └── <cluster>.md
 ├── scripts/validate.py
 └── README.md
 ```
 
-Each entry in `marketplace.json` looks like this:
+Each entry is one capability:
 
 ```json
 {
-  "name": "qa-execution",
+  "name": "qa-knowledge-fabric",
+  "displayName": "Knowledge Fabric",
   "source": "./",
   "strict": false,
-  "skills": ["./skills/execution"],
-  "agents": ["./agents/execution"]
+  "skills": ["./skills/intelligence/knowledge-fabric"],
+  "agents": ["./agents/intelligence/knowledge-fabric-curator.md"],
+  "category": "intelligence"
 }
 ```
 
-Three things make this work, and all three are load-bearing:
+Four things are load-bearing:
 
+- **One skill and one agent per entry.** This is what makes capabilities individually installable. Bundling four skills into one entry means users can only take all four. `scripts/validate.py` warns on any entry that is not exactly 1:1.
+- **Each `skills` path points at the directory containing `SKILL.md`** — never at a parent folder. `"./skills/intelligence"` registers one skill named `intelligence` with no `SKILL.md` and the cluster appears broken. The validator fails the build on this.
 - **`source: "./"`** — every entry points at the marketplace root rather than a separate plugin directory.
-- **`skills` / `agents` paths** — with a marketplace-root source, the listed paths are the *complete* set for that entry. Installing `qa-design` loads only `skills/design` and `agents/design`; the other three clusters stay dormant. Drop the `skills` field and the entry would scan the whole shared folder and pull in all ten skills.
-- **`strict: false`** — the marketplace entry is the entire plugin definition. Since all four entries share one root, there can be no per-plugin `plugin.json`; a root `plugin.json` declaring components would conflict with all four and every entry would fail to load. There is deliberately no `plugin.json` anywhere in this repository.
+- **`strict: false`** — the entry is the entire plugin definition. All 15 share one root, so there is deliberately no `plugin.json` anywhere in this repository; one at the root would conflict with every entry.
 
-## Install
+Skills register as `<plugin-name>:<skill-name>`, so this one is `qa-knowledge-fabric:knowledge-fabric`.
 
-```bash
-/plugin marketplace add ./qz-agent-clusters      # local
-/plugin marketplace add your-org/qz-agent-clusters   # published
+### Adding a capability
 
-/plugin install qa-intelligence@qz-agent-clusters
-/plugin install qa-design@qz-agent-clusters
-/plugin install qa-execution@qz-agent-clusters
-/plugin install qa-governance@qz-agent-clusters
+1. `skills/<cluster>/<skill-name>/SKILL.md`
+2. `agents/<cluster>/<agent-name>.md`
+3. One entry in `marketplace.json` pairing them
+4. `python scripts/validate.py`
 
-/reload-plugins
-```
+### Cluster bundles
 
-Validate before publishing:
-
-```bash
-claude plugin validate .
-```
+If you also want one-click cluster installs, add four more entries listing each cluster's skills and agents. Deliberately not shipped: a user who installs both `qa-intelligence` and `qa-knowledge-fabric` registers the same skill twice, and the individual entries are what you asked for. Add them only if the convenience outweighs that.
 
 ## Agents vs skills
 

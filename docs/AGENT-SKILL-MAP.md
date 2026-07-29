@@ -1,6 +1,6 @@
 # Agent ↔ skill map
 
-Every box in the cluster diagram is one agent **and** one skill. Fifteen of each, paired 1:1.
+Every box in the cluster diagram is one **plugin**, containing one agent and one skill. Fifteen of each, paired 1:1, each installable on its own.
 
 | # | Cluster | Diagram item | Agent | Skill |
 |---|---|---|---|---|

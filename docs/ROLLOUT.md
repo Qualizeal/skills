@@ -5,8 +5,9 @@
 - [ ] `pip install pyyaml && python scripts/validate.py` → 0 errors
 - [ ] `claude plugin validate .` → passes
 - [ ] `/plugin marketplace add ./qz-agent-clusters` locally
-- [ ] Install one cluster, `/reload-plugins`, confirm `/agents` lists only that cluster's agents
-- [ ] Run `/plugin` and confirm the **skill count matches the diagram**: Intelligence 4, Design 2, Execution 6, Governance 3. A cluster showing one skill means its `skills` array points at the parent folder instead of the individual skill directories
+- [ ] Install a single capability (`/plugin install qa-knowledge-fabric@qz-agent-clusters`), `/reload-plugins`, and confirm exactly one skill and one agent appear
+- [ ] Confirm `/plugin > Discover` lists 15 entries grouped by cluster category
+- [ ] If you changed the manifest, run `/plugin marketplace update` — the local copy is cached and will otherwise serve the old catalog
 - [ ] Run each agent once against a real artefact from your codebase — a real PR, a real story, a real red pipeline
 - [ ] Replace the `owner` block in `marketplace.json`
 - [ ] Decide the final plugin `name` slugs. **This is the last cheap moment to change them** — the slug is immutable once published, and renaming breaks every existing install unless you ship a `renames` map
