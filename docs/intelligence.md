@@ -9,7 +9,7 @@ Perceive · Retrieve · Understand — the agents that build shared understandin
 | `knowledge-fabric-curator` | sonnet | Ingesting and tagging artefacts into the RAG knowledge store |
 | `rag-authoring-assistant` | sonnet | Authoring artefacts grounded strictly in retrieved organisational knowledge |
 
-Skills: `invest-requirements-analysis` · `change-impact-scoring` · `knowledge-fabric-curation`
+Skills: `requirements-refinement` · `change-impact-analysis` · `knowledge-fabric` · `rag-augmented-authoring`
 
 Retrieval quality is bounded by curation quality — `knowledge-fabric-curator` is the agent that determines how well every other RAG-dependent agent performs.
 

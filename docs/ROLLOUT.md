@@ -17,7 +17,9 @@ The defaults are reasonable, not yours. Measure first, then set gates at or just
 - [ ] `ci-quality-gates` — changed-line coverage floor, flake ceiling, latency regression budget
 - [ ] `quality-metrics-model` — readiness weights and the component floors
 - [ ] `knowledge-fabric-curation` — replace the `domain` and `component` vocabularies with your real service names. An unlisted tag makes a document invisible to filtered retrieval
-- [ ] `playwright-conventions` — reconcile with your existing `playwright.config` and page-object layout
+- [ ] `playwright-framework` — reconcile the config, fixture and page-object layout with your existing suite
+- [ ] `playwright-locator-strategy` — set the `testIdAttribute` and the test-id naming convention
+- [ ] `playwright-mcp` — confirm environment allowlists; the guardrail against pointing a browser agent at production is configuration, not intention
 
 ## Phase 2 — pilot on one team
 

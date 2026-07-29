@@ -26,7 +26,7 @@ Order stages by cost, fail fast on the cheap ones:
 
 ## Quality gates
 
-Define gates as explicit, measurable conditions. See the `ci-quality-gates` skill for the standard gate set. Every gate needs: a threshold, a rationale, a named owner, and a documented override path. An unoverridable gate gets bypassed by disabling the pipeline, which is worse than a gate with an audited override.
+Define gates as explicit, measurable conditions. See the `cicd-integration` skill for the standard gate set. Every gate needs: a threshold, a rationale, a named owner, and a documented override path. An unoverridable gate gets bypassed by disabling the pipeline, which is worse than a gate with an audited override.
 
 ## Execution concerns
 

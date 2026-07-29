@@ -8,7 +8,7 @@ Validate · Measure · Improve — the loop that turns execution results into or
 | `metrics-analyst` | sonnet | Release readiness, coverage, defect density, predictive scoring |
 | `continuous-learning` | sonnet | Capturing, validating and propagating correction signals |
 
-Skills: `defect-enrichment` · `quality-metrics-model`
+Skills: `defect-reporting-enrichment` · `test-metrics-dashboards` · `continuous-learning-loop`
 
 `continuous-learning` is what makes the ecosystem compound rather than plateau. Its honesty rule matters most: if the correction rate is flat, the loop is not closing, and the report should say so rather than substituting activity metrics.
 

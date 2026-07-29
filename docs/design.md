@@ -7,7 +7,7 @@ Specify · Scope · Prepare — turning refined requirements into executable cov
 | `test-case-designer` | sonnet | Functional, boundary, negative and edge-case design plus traceability |
 | `synthetic-data-architect` | sonnet | Schema-aware synthetic data with referential integrity and lineage |
 
-Skills: `test-design-techniques` · `synthetic-test-data`
+Skills: `test-case-design` · `synthetic-test-data`
 
 Two constraints are non-negotiable in this cluster: cases are judged on defect-finding power rather than count, and no production personal data enters a test environment — synthesis only, never masking.
 

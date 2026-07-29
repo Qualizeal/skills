@@ -23,19 +23,21 @@ There is no `plugins/` directory. All four clusters live side by side under `ski
 qz-agent-clusters/
 ├── .claude-plugin/
 │   └── marketplace.json          # four entries, all source "./"
-├── skills/
-│   ├── intelligence/             # invest-requirements-analysis, change-impact-scoring,
-│   │   └── <skill>/SKILL.md      #   knowledge-fabric-curation
-│   ├── design/                   # test-design-techniques, synthetic-test-data
-│   ├── execution/                # playwright-conventions, self-healing-locators,
-│   │                             #   ci-quality-gates
-│   └── governance/               # defect-enrichment, quality-metrics-model
-├── agents/
-│   ├── intelligence/  (4 agents)
-│   ├── design/        (2 agents)
-│   ├── execution/     (6 agents)
-│   └── governance/    (3 agents)
-├── docs/                         # per-cluster documentation
+├── skills/                       # 15 skills, one per diagram item
+│   ├── intelligence/             # 4
+│   ├── design/                   # 2
+│   ├── execution/                # 6  (playwright-automation bundles 4 references)
+│   └── governance/               # 3
+├── agents/                       # 15 agents, paired 1:1 with the skills
+│   ├── intelligence/             # 4
+│   ├── design/                   # 2
+│   ├── execution/                # 6
+│   └── governance/               # 3
+├── docs/
+│   ├── AGENT-SKILL-MAP.md        # the 1:1 map
+│   ├── ROLLOUT.md
+│   └── <cluster>.md
+├── scripts/validate.py
 └── README.md
 ```
 
@@ -86,50 +88,44 @@ The split is applied consistently and it is the reason the restructure is cheap:
 
 Put a convention in a skill, not an agent prompt. When the convention changes you edit one file and every agent depending on it improves at once.
 
-## Clusters
+## Clusters — 15 agents, 15 skills, paired 1:1
+
+Every box in the diagram is one agent and one skill. Full map in `docs/AGENT-SKILL-MAP.md`.
 
 ### Intelligence — Perceive · Retrieve · Understand
 
-| Agent | Model | Does |
+| Agent | Skill | Covers |
 |---|---|---|
-| `requirements-refiner` | sonnet | INVEST scoring, ambiguity detection, acceptance criteria enrichment |
-| `change-impact-analyst` | opus | Diff → blast radius → risk-ranked minimum viable test scope |
-| `knowledge-fabric-curator` | sonnet | Ingest, structure, chunk, tag and enrich the RAG knowledge store |
-| `rag-authoring-assistant` | sonnet | Authors artefacts grounded in retrieved organisational knowledge only |
-
-Skills: `invest-requirements-analysis` · `change-impact-scoring` · `knowledge-fabric-curation`
+| `requirements-refiner` | `requirements-refinement` | INVEST rubric, ambiguity taxonomy, AC enrichment |
+| `change-impact-analyst` | `change-impact-analysis` | Blast radius tracing, risk scoring, minimum viable test scope |
+| `knowledge-fabric-curator` | `knowledge-fabric` | Artefact schema, tag vocabulary, chunking, redaction, workflow coverage |
+| `rag-authoring-assistant` | `rag-augmented-authoring` | Grounding contract, citation format, gap declaration, relevance report |
 
 ### Design — Specify · Scope · Prepare
 
-| Agent | Model | Does |
+| Agent | Skill | Covers |
 |---|---|---|
-| `test-case-designer` | sonnet | Functional, boundary, negative and edge cases + traceability matrix |
-| `synthetic-data-architect` | sonnet | Schema-aware synthetic data with lineage and zero production PII |
-
-Skills: `test-design-techniques` · `synthetic-test-data`
+| `test-case-designer` | `test-case-design` | Partitioning, boundaries, decision tables, state transition, pairwise, traceability |
+| `synthetic-data-architect` | `synthetic-test-data` | Schema derivation, referential integrity, regulatory profiles, lineage |
 
 ### Execution — Build · Run · Maintain · Secure
 
-| Agent | Model | Does |
+| Agent | Skill | Covers |
 |---|---|---|
-| `playwright-automator` | sonnet | Web UI and REST/GraphQL automation to house conventions |
-| `failure-analyst` | opus | Triage into product defect / test defect / environment / flake, with RCA |
-| `script-maintainer` | sonnet | Locator drift, fragility backlog, dead tests, runtime hotspots |
-| `cicd-integrator` | sonnet | GitHub Actions, Azure DevOps, Jenkins pipelines and release gates |
-| `shift-left-security` | opus | BRD-stage threat modelling, SAST/DAST triage by exploitability |
-| `performance-tester` | sonnet | Telemetry-grounded workload models and SLA validation |
-
-Skills: `playwright-conventions` · `self-healing-locators` · `ci-quality-gates`
+| `playwright-automator` | `playwright-automation` | Ten rules + references on framework, locators, script generation, MCP |
+| `failure-analyst` | `failure-analysis-self-healing` | Triage decision tree, flake taxonomy, locator drift detection, repair |
+| `script-maintainer` | `script-maintenance` | Health audit, fragility × churn scoring, quarantine ledger, deletion criteria |
+| `cicd-integrator` | `cicd-integration` | Stage ordering, gates, sharding, GHA/ADO/Jenkins configs, debugging table |
+| `shift-left-security` | `shift-left-security-testing` | STRIDE at BRD stage, security AC, reachability-based scanner triage |
+| `performance-tester` | `performance-testing` | Telemetry-grounded workload models, SLO definition, bottleneck analysis |
 
 ### Governance — Validate · Measure · Improve
 
-| Agent | Model | Does |
+| Agent | Skill | Covers |
 |---|---|---|
-| `defect-reporter` | sonnet | Enriched reports with RCA, duplicate and false-positive screening |
-| `metrics-analyst` | sonnet | Release readiness, coverage, defect density, predictive scoring |
-| `continuous-learning` | sonnet | Captures correction signals, validates and feeds them back |
-
-Skills: `defect-enrichment` · `quality-metrics-model`
+| `defect-reporter` | `defect-reporting-enrichment` | Screening, report template, severity vs priority, RCA categories |
+| `metrics-analyst` | `test-metrics-dashboards` | Metric definitions, release readiness score, predictive scoring, panel spec |
+| `continuous-learning` | `continuous-learning-loop` | Signal capture, validation bar, effectiveness tracking, failure modes |
 
 ## How the clusters chain
 

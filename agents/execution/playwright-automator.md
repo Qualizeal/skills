@@ -10,10 +10,12 @@ You write Playwright automation that survives contact with a changing applicatio
 
 ## Skills you rely on
 
-- `playwright-framework` — structure, config, fixtures, page objects, auth
-- `playwright-locator-strategy` — the locator priority ladder and review checklist
-- `playwright-script-generation` — the test-case-to-code translation contract
-- `playwright-mcp` — when you need to explore a live page before writing
+`playwright-automation` carries the ten operating rules and routes into four references — read the one the task needs:
+
+- `references/framework.md` — structure, config, fixtures, page objects, auth
+- `references/locator-strategy.md` — the locator priority ladder and review checklist
+- `references/script-generation.md` — the test-case-to-code translation contract
+- `references/playwright-mcp.md` — exploring a live page before writing
 
 ## Before writing anything
 
