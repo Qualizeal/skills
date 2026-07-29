@@ -1,0 +1,19 @@
+{
+  "_comment": "Copy into a consuming repository's .claude/settings.json to auto-register the marketplace and pre-enable clusters for the team. Team members are prompted on first trusting the folder.",
+
+  "extraKnownMarketplaces": {
+    "qz-agent-clusters": {
+      "source": {
+        "source": "github",
+        "repo": "your-org/qz-agent-clusters"
+      }
+    }
+  },
+
+  "enabledPlugins": {
+    "qa-intelligence@qz-agent-clusters": true,
+    "qa-design@qz-agent-clusters": true,
+    "qa-execution@qz-agent-clusters": true,
+    "qa-governance@qz-agent-clusters": false
+  }
+}

@@ -1,19 +1,72 @@
 {
-    "name": "qz-skills",
-    "owner": {
-      "name": "QZ"
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "qz-agent-clusters",
+  "description": "15 purpose-built QA agents organised into four clusters: Intelligence, Design, Execution and Governance. Skills and agents are grouped by cluster at the marketplace root.",
+  "version": "0.1.0",
+  "owner": {
+    "name": "Quality Engineering Platform Team",
+    "email": "qe-platform@example.com"
+  },
+  "plugins": [
+    {
+      "name": "qa-intelligence",
+      "displayName": "Intelligence Cluster",
+      "description": "Perceive, retrieve, understand. Requirements refinement, change impact analysis, knowledge fabric curation and RAG-augmented authoring.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/intelligence"],
+      "agents": ["./agents/intelligence"],
+      "version": "0.1.0",
+      "author": { "name": "Quality Engineering Platform Team" },
+      "license": "MIT",
+      "category": "quality-engineering",
+      "keywords": ["requirements", "invest", "impact-analysis", "rag", "knowledge-base"],
+      "tags": ["intelligence", "shift-left", "analysis"]
     },
-    "description": "Custom agent skills",
-    "plugins": [
-      {
-        "name": "humanize",
-        "source": "./skills/humanize",
-        "description": "Style rules for writing prose that doesn't read as machine-generated."
-      },
-      {
-        "name": "documentation",
-        "source": "./skills/documentation",
-        "description": "Documentation for the project"
-      }
-    ]
-  }
+    {
+      "name": "qa-design",
+      "displayName": "Design Cluster",
+      "description": "Specify, scope, prepare. Test case design across functional, boundary, negative and edge-case dimensions, plus schema-aware synthetic test data.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/design"],
+      "agents": ["./agents/design"],
+      "version": "0.1.0",
+      "author": { "name": "Quality Engineering Platform Team" },
+      "license": "MIT",
+      "category": "quality-engineering",
+      "keywords": ["test-design", "boundary-analysis", "traceability", "synthetic-data", "pii"],
+      "tags": ["design", "test-cases", "data"]
+    },
+    {
+      "name": "qa-execution",
+      "displayName": "Execution Cluster",
+      "description": "Build, run, maintain, secure. Playwright automation, self-healing failure analysis, script maintenance, CI/CD gates, shift-left security and performance testing.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/execution"],
+      "agents": ["./agents/execution"],
+      "version": "0.1.0",
+      "author": { "name": "Quality Engineering Platform Team" },
+      "license": "MIT",
+      "category": "quality-engineering",
+      "keywords": ["playwright", "ci-cd", "self-healing", "sast", "dast", "performance"],
+      "tags": ["execution", "automation", "security", "performance"]
+    },
+    {
+      "name": "qa-governance",
+      "displayName": "Governance Cluster",
+      "description": "Validate, measure, improve. Defect enrichment with RCA, release-readiness metrics and dashboards, and a continuous learning feedback loop.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/governance"],
+      "agents": ["./agents/governance"],
+      "version": "0.1.0",
+      "author": { "name": "Quality Engineering Platform Team" },
+      "license": "MIT",
+      "category": "quality-engineering",
+      "keywords": ["defects", "rca", "metrics", "release-readiness", "feedback-loop"],
+      "tags": ["governance", "metrics", "reporting"]
+    }
+  ]
+}
