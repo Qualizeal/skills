@@ -79,16 +79,34 @@ for entry in mk.get("plugins", []):
         warnings.append(f"{name}: no description")
     if not entry.get("version"):
         warnings.append(f"{name}: no version — updates will track the commit SHA")
-    for key, bucket in (("skills", claimed_skills), ("agents", claimed_agents)):
-        for path in entry.get(key, []):
-            if ".." in path:
-                errors.append(f"{name}: path '{path}' escapes the marketplace root")
-            if not os.path.isdir(path):
-                errors.append(f"{name}: {key} path '{path}' does not exist")
-            elif path in bucket:
-                errors.append(f"{name}: {key} path '{path}' claimed by another entry")
-            else:
-                bucket.add(os.path.normpath(path))
+    # A `skills` path must point AT a directory containing SKILL.md — not at a
+    # parent folder of skill directories. Getting this wrong loads one broken
+    # entry instead of the whole cluster, silently.
+    for path in entry.get("skills", []):
+        if ".." in path:
+            errors.append(f"{name}: path '{path}' escapes the marketplace root")
+        elif not os.path.isdir(path):
+            errors.append(f"{name}: skills path '{path}' does not exist")
+        elif not os.path.isfile(os.path.join(path, "SKILL.md")):
+            nested = glob.glob(os.path.join(path, "*", "SKILL.md"))
+            errors.append(
+                f"{name}: skills path '{path}' has no SKILL.md directly inside it"
+                + (f" — it contains {len(nested)} skill dirs; list each one separately"
+                   if nested else "")
+            )
+        else:
+            claimed_skills.add(os.path.normpath(path))
+
+    for path in entry.get("agents", []):
+        if ".." in path:
+            errors.append(f"{name}: path '{path}' escapes the marketplace root")
+        elif os.path.isfile(path):
+            claimed_agents.add(os.path.normpath(path))
+        elif os.path.isdir(path):
+            for f in glob.glob(os.path.join(path, "*.md")):
+                claimed_agents.add(os.path.normpath(f))
+        else:
+            errors.append(f"{name}: agents path '{path}' does not exist")
 
 # --- agents ---------------------------------------------------------------
 agents = sorted(glob.glob("agents/*/*.md"))
@@ -104,8 +122,8 @@ for path in agents:
         warnings.append(f"{path}: thin description — Claude delegates on this field")
     if data.get("model") not in (None, "sonnet", "opus", "haiku", "inherit"):
         errors.append(f"{path}: invalid model '{data.get('model')}'")
-    if os.path.normpath(os.path.dirname(path)) not in claimed_agents:
-        warnings.append(f"{path}: in a directory no marketplace entry claims — will not load")
+    if os.path.normpath(path) not in claimed_agents:
+        errors.append(f"{path}: not claimed by any marketplace entry — will not load")
 
 # --- skills ---------------------------------------------------------------
 skills = sorted(glob.glob("skills/*/*/SKILL.md"))
@@ -120,6 +138,11 @@ for path in skills:
 for orphan in glob.glob("skills/*/*"):
     if os.path.isdir(orphan) and not os.path.exists(os.path.join(orphan, "SKILL.md")):
         errors.append(f"{orphan}: skill directory without SKILL.md")
+
+for path in skills:
+    d = os.path.normpath(os.path.dirname(path))
+    if d not in claimed_skills:
+        errors.append(f"{d}: skill not claimed by any marketplace entry — will not load")
 
 # --- report ---------------------------------------------------------------
 for w in warnings:
