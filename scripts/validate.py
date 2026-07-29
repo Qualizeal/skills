@@ -16,6 +16,12 @@ errors, warnings = [], []
 
 def frontmatter(path):
     text = open(path, encoding="utf-8").read()
+    # A colon-space inside an unquoted YAML value breaks the parse. Descriptions
+    # are prose and routinely contain one, so they must be quoted.
+    for line in text.split("\n")[:6]:
+        if line.startswith("description: ") and not line[13:].lstrip().startswith(('"', "'")):
+            if ": " in line[13:]:
+                errors.append(f"{path}: unquoted description contains ': ' — wrap it in double quotes")
     if not text.startswith("---\n"):
         errors.append(f"{path}: no YAML frontmatter")
         return {}
@@ -75,11 +81,10 @@ for entry in mk.get("plugins", []):
                 f"{name}: shared root without explicit skills/agents paths "
                 "— this entry will load every cluster"
             )
-    if len(entry.get("skills", [])) != 1 or len(entry.get("agents", [])) != 1:
-        warnings.append(
-            f"{name}: {len(entry.get('skills', []))} skills / {len(entry.get('agents', []))} agents "
-            "— this marketplace pairs exactly one of each per plugin so capabilities install individually"
-        )
+    if not entry.get("skills"):
+        errors.append(f"{name}: no skills listed")
+    if len(entry.get("agents", [])) != 1:
+        warnings.append(f"{name}: {len(entry.get('agents', []))} agents — one per plugin is the convention here")
     if not entry.get("description"):
         warnings.append(f"{name}: no description")
     if not entry.get("version"):
@@ -131,7 +136,7 @@ for path in agents:
         errors.append(f"{path}: not claimed by any marketplace entry — will not load")
 
 # --- skills ---------------------------------------------------------------
-skills = sorted(glob.glob("skills/*/*/SKILL.md"))
+skills = sorted(glob.glob("skills/**/SKILL.md", recursive=True))
 for path in skills:
     data = frontmatter(path)
     parent = os.path.basename(os.path.dirname(path))
@@ -140,9 +145,10 @@ for path in skills:
     if len(data.get("description", "")) < 40:
         warnings.append(f"{path}: thin description — Claude loads skills on this field")
 
-for orphan in glob.glob("skills/*/*"):
-    if os.path.isdir(orphan) and not os.path.exists(os.path.join(orphan, "SKILL.md")):
-        errors.append(f"{orphan}: skill directory without SKILL.md")
+# A leaf directory under skills/ with no SKILL.md and no subdirectories is dead weight
+for d, subdirs, files in os.walk("skills"):
+    if not subdirs and "SKILL.md" not in files:
+        errors.append(f"{d}: leaf directory without SKILL.md")
 
 for path in skills:
     d = os.path.normpath(os.path.dirname(path))

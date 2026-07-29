@@ -75,25 +75,29 @@ Installing a whole cluster means installing its members:
 
 Entries carry `category` set to their cluster, so `/plugin > Discover` groups them as Intelligence, Design, Execution and Governance.
 
-### The 15 plugins
+### The 15 plugins and their skills
 
-| Plugin | Cluster | Skill | Agent |
+Each plugin bundles one agent with the task-level skills that agent works from. 67 skills in total.
+
+| Plugin | Cluster | Skills | Skill names |
 |---|---|---|---|
-| `qa-requirements-refinement` | Intelligence | `requirements-refinement` | `requirements-refiner` |
-| `qa-change-impact-analysis` | Intelligence | `change-impact-analysis` | `change-impact-analyst` |
-| `qa-knowledge-fabric` | Intelligence | `knowledge-fabric` | `knowledge-fabric-curator` |
-| `qa-rag-augmented-authoring` | Intelligence | `rag-augmented-authoring` | `rag-authoring-assistant` |
-| `qa-test-case-design` | Design | `test-case-design` | `test-case-designer` |
-| `qa-synthetic-test-data` | Design | `synthetic-test-data` | `synthetic-data-architect` |
-| `qa-playwright-automation` | Execution | `playwright-automation` | `playwright-automator` |
-| `qa-failure-analysis` | Execution | `failure-analysis-self-healing` | `failure-analyst` |
-| `qa-script-maintenance` | Execution | `script-maintenance` | `script-maintainer` |
-| `qa-cicd-integration` | Execution | `cicd-integration` | `cicd-integrator` |
-| `qa-shift-left-security` | Execution | `shift-left-security-testing` | `shift-left-security` |
-| `qa-performance-testing` | Execution | `performance-testing` | `performance-tester` |
-| `qa-defect-reporting` | Governance | `defect-reporting-enrichment` | `defect-reporter` |
-| `qa-test-metrics` | Governance | `test-metrics-dashboards` | `metrics-analyst` |
-| `qa-continuous-learning` | Governance | `continuous-learning-loop` | `continuous-learning` |
+| `qa-requirements-refinement` | Intelligence | 3 | `invest-scoring`, `ambiguity-detection`, `acceptance-criteria-authoring` |
+| `qa-change-impact-analysis` | Intelligence | 3 | `blast-radius-tracing`, `change-risk-scoring`, `minimum-viable-test-scope` |
+| `qa-knowledge-fabric` | Intelligence | 5 | `artefact-ingestion`, `tagging-vocabulary`, `retrieval-chunking`, `redaction-policy`, `retrieval-quality-audit` |
+| `qa-rag-augmented-authoring` | Intelligence | 3 | `grounding-contract`, `retrieval-quality-bar`, `citation-and-relevance-reporting` |
+| `qa-test-case-design` | Design | 7 | `equivalence-and-boundary-analysis`, `decision-tables`, `state-transition-testing`, `pairwise-combinations`, `negative-and-permission-testing`, `test-level-assignment`, `traceability-matrix` |
+| `qa-synthetic-test-data` | Design | 5 | `schema-derivation`, `referential-integrity`, `edge-case-distribution`, `regulatory-profiles`, `data-lineage` |
+| `qa-playwright-automation` | Execution | 5 | `playwright-operating-rules`, `playwright-framework`, `playwright-locator-strategy`, `playwright-script-generation`, `playwright-mcp` |
+| `qa-failure-analysis` | Execution | 4 | `failure-triage`, `flake-classification`, `locator-drift-repair`, `quarantine-policy` |
+| `qa-script-maintenance` | Execution | 3 | `suite-health-audit`, `automation-repair-rules`, `test-deletion-criteria` |
+| `qa-cicd-integration` | Execution | 7 | `pipeline-stage-design`, `quality-gate-definitions`, `playwright-sharding`, `github-actions-pipeline`, `azure-devops-jenkins-pipeline`, `artefacts-and-secrets`, `pipeline-debugging` |
+| `qa-shift-left-security` | Execution | 4 | `stride-threat-modelling`, `security-acceptance-criteria`, `scanner-triage`, `security-testing-boundaries` |
+| `qa-performance-testing` | Execution | 5 | `workload-modelling`, `slo-definition`, `test-type-selection`, `bottleneck-analysis`, `performance-reporting` |
+| `qa-defect-reporting` | Governance | 4 | `defect-screening`, `defect-report-template`, `severity-and-priority`, `root-cause-categories` |
+| `qa-test-metrics` | Governance | 5 | `metric-definitions`, `release-readiness-scoring`, `predictive-defect-scoring`, `metrics-reporting-rules`, `dashboard-specification` |
+| `qa-continuous-learning` | Governance | 4 | `signal-capture`, `learning-validation`, `effectiveness-tracking`, `learning-loop-failure-modes` |
+
+Skills register as `<plugin-name>:<skill-name>`, so installing `qa-knowledge-fabric` gives you `qa-knowledge-fabric:artefact-ingestion`, `qa-knowledge-fabric:tagging-vocabulary` and three more. Claude loads whichever is relevant to the task rather than the whole set.
 
 ## Layout
 
@@ -102,27 +106,32 @@ Files stay grouped by cluster on disk; the manifest decides what installs togeth
 ```
 qz-agent-clusters/
 ├── .claude-plugin/
-│   └── marketplace.json          # 15 entries, one per capability
+│   └── marketplace.json               # 15 entries, one per capability
 ├── skills/
-│   ├── intelligence/
-│   │   ├── requirements-refinement/SKILL.md
-│   │   ├── change-impact-analysis/SKILL.md
-│   │   ├── knowledge-fabric/SKILL.md
-│   │   └── rag-augmented-authoring/SKILL.md
-│   ├── design/                   # 2 skill folders
-│   ├── execution/                # 6 skill folders
-│   │   └── playwright-automation/
-│   │       ├── SKILL.md
-│   │       └── references/       # framework, locators, script-gen, mcp
-│   └── governance/               # 3 skill folders
+│   └── <cluster>/
+│       └── <capability>/              # = one plugin
+│           └── <skill-name>/
+│               └── SKILL.md
 ├── agents/
-│   ├── intelligence/             # 4 agent files
-│   ├── design/                   # 2
-│   ├── execution/                # 6
-│   └── governance/               # 3
+│   └── <cluster>/
+│       └── <agent-name>.md            # one per capability
 ├── docs/
-├── scripts/validate.py
+├── scripts/
+│   ├── validate.py
+│   └── check-deployment.py
 └── README.md
+```
+
+For example, `qa-knowledge-fabric` is:
+
+```
+skills/intelligence/knowledge-fabric/
+├── artefact-ingestion/SKILL.md
+├── tagging-vocabulary/SKILL.md
+├── retrieval-chunking/SKILL.md
+├── redaction-policy/SKILL.md
+└── retrieval-quality-audit/SKILL.md
+agents/intelligence/knowledge-fabric-curator.md
 ```
 
 Each entry is one capability:
